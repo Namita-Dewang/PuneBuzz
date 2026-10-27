@@ -1,0 +1,52 @@
+@import "tailwindcss";
+/* The design system (tokens, fonts, type scale, shadows) lives in tailwind.config.js. */
+@config "../tailwind.config.js";
+
+/* Class-based dark mode: <html class="dark">. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    @apply bg-canvas text-ink;
+    /* Keep focused fields and scrolled-to sections clear of the sticky navbar (h-16). */
+    scroll-padding-top: 5rem;
+    font-feature-settings: "cv11", "ss01"; /* Inter: single-storey a, open digits */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-[15px] leading-relaxed text-ink antialiased sm:text-base;
+  }
+
+  h1, h2, h3 {
+    font-optical-sizing: auto;
+  }
+
+  ::selection {
+    @apply bg-accent-soft text-ink;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+
+  /* Native controls (date pickers, scrollbars) follow the theme. */
+  input, select, textarea {
+    color-scheme: inherit;
+  }
+}
+
+/* Event pages dock the booking control to the bottom on small screens; give
+   the whole page (footer included) room so nothing ends up under it. */
+@media (width < 64rem) {
+  body:has([data-booking-dock]) {
+    padding-bottom: 8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
